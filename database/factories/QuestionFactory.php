@@ -4,6 +4,7 @@
 
 use App\Model\Question;
 use App\Model\Category;
+use App\User;
 
 use Faker\Generator as Faker;
 
