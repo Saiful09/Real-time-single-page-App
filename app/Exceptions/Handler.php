@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class Handler extends ExceptionHandler
 {
@@ -49,7 +50,14 @@ class Handler extends ExceptionHandler
      * @throws \Exception
      */
     public function render($request, Exception $exception)
-    {
+    {    
+        if($exception instanceOf JWTException){
+            return response(['error'=>'Token is not provided'],500);
+        }
+        else if($exception instanceOf TokenBlackListedException)
+        {
+           return response(['error'=>'Token can  not be used,get new one'],500); 
+        }
         return parent::render($request, $exception);
     }
 }

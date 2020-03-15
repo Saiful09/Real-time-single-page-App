@@ -6,7 +6,12 @@ use App\Model\Like;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
-{
+{    
+
+     public function __construct()
+    {
+        $this->middleware('JWT');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -81,5 +86,21 @@ class LikeController extends Controller
     public function destroy(Like $like)
     {
         //
+    }public function LikeIt(Reply $reply){
+
+        $reply->Like()->create(
+            [
+                'user_id'=>'1'
+            ]
+            );
+
     }
+    public function UnLikeIt(Reply $reply){
+
+        $reply->Like()->Where(
+            ['user_id',auth()->id()])->first()->delete();
+        
+
+    }
+
 }

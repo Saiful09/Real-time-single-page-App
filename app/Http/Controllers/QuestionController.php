@@ -8,7 +8,12 @@ use Illuminate\Http\Request;
 use Symfony\Component\HTTPFoundation\Respone;
 
 class QuestionController extends Controller
-{
+{    
+
+       public function __construct()
+    {
+        $this->middleware('JWT', ['only' => ['index','show']]);
+    }
     /**
      * Display a listing of the resource.
      *

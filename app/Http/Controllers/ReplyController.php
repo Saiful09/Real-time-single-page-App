@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Model\Reply;
 use Illuminate\Http\Request;
+use App\Model\Question;
 
 class ReplyController extends Controller
-{
+{    
+
+     public function __construct()
+    {
+        $this->middleware('JWT', ['except' => ['index','show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class ReplyController extends Controller
      */
     public function index()
     {
-        //
+        return Reply::latest()->get();
     }
 
     /**
@@ -33,9 +39,10 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Question $question, Request $request)
     {
-        //
+        $reply=$question->replies()->create($request->all());
+        return Response(['Reply'=>$reply],201);
     }
 
     /**
@@ -44,9 +51,9 @@ class ReplyController extends Controller
      * @param  \App\Model\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function show(Reply $reply)
+    public function show( Question $question, Reply $reply)
     {
-        //
+        return $reply;
     }
 
     /**
